@@ -17,4 +17,18 @@ public class RestaurantTest
     restaurant.customerSays(tableId, "John: Chips");
     assertEquals("Soup, Soup, Chips, Chips", restaurant.createOrder(tableId));
   }
+
+  @Test
+  public void failedCreationBecauseNotEveryoneOrdered()
+  {
+    final Restaurant restaurant = new Restaurant();
+    final int tableId = restaurant.initTable(4);
+    restaurant.customerSays(tableId, "Joe: Soup");
+    restaurant.customerSays(tableId, "Joe: Spaghetti");
+    restaurant.customerSays(tableId, "Jim: Roastbeef");
+    assertEquals("MISSING 2", restaurant.createOrder(tableId));
+    restaurant.customerSays(tableId, "Jack: Spaghetti");
+    restaurant.customerSays(tableId, "John: Chips");
+    assertEquals("Spaghetti, Roastbeef, Spaghetti, Chips", restaurant.createOrder(tableId));
+  }
 }

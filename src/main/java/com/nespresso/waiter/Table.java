@@ -34,6 +34,11 @@ final class Table
   
   String createOrder()
   {
+    if (size > orders.size())
+    {
+      return String.format("MISSING %d", size - orders.size());
+    }
+    
     return orders.values().stream().collect(Collectors.joining(", "));
   }
 }
