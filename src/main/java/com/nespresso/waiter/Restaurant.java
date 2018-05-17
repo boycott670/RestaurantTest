@@ -2,16 +2,22 @@ package com.nespresso.waiter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 final class Restaurant
 {
+  private final OrderParser orderParser;
+  
   private int nextTableId;
   
   private final Map<Integer, Table> tables;
   
   Restaurant()
   {
+    orderParser = new DefaultOrderParser();
+    
     nextTableId = 1;
+    
     tables = new HashMap<>();
   }
   
@@ -24,9 +30,9 @@ final class Restaurant
   
   void customerSays(final int tableId, final String order)
   {
-    final String[] orderTokens = order.split(": ");
+    final Entry<String, Recipe> parsedOrder = orderParser.parseOrder(order);
     
-    tables.get(tableId).customerSays(orderTokens[0], orderTokens[1]);
+    tables.get(tableId).customerSays(parsedOrder.getKey(), parsedOrder.getValue());
   }
   
   String createOrder(final int tableId)
